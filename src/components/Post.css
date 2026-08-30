@@ -1,0 +1,13 @@
+.post {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 8px;
+  background-color: #d1cece;
+}
+.photo {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 8px;
+  margin: 10px 0;
+}
