@@ -5,7 +5,7 @@ function Post(props) {
   return (
     
     <div className="post">
-      <img src={props.image} alt="post" className="photo" />
+      <Image width={232} src={props.image} alt="post" className="photo" />
       <p>❤️: {props.likes} </p>
       <p> <h3>{props.username}</h3> {props.caption} </p>
       

@@ -1,8 +1,11 @@
-import Feed from "./components/Feed";
+import Profile from "./components/Profile";
 import './App.css';
 import 'antd/dist/reset.css';
-import { Button } from 'antd';
+import { Button, Avatar } from 'antd';
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import myphoto from "./assests/myphoto.jpg";
+
 
 import {
    HomeOutlined,
@@ -12,7 +15,8 @@ import {
   HeartOutlined,
   PlusOutlined,
   InstagramOutlined,
-  UserOutlined,
+ 
+  MenuOutlined,
  
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -20,22 +24,27 @@ import {ConfigProvider, Layout, Menu, theme } from 'antd';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-
-
-const items: MenuProps['items'] = [
-  InstagramOutlined,
-  HomeOutlined,
-  VideoCameraOutlined,
-  MessageOutlined,
-  SearchOutlined,
-  HeartOutlined,
-  PlusOutlined,
-  UserOutlined,
-].map((icon, index) => ({
+const items: MenuProps["items"] =[
+  { icon: InstagramOutlined, label: "Instagram" },
+  { icon: HomeOutlined, label: "Home" },
+  { icon: VideoCameraOutlined, label: "Reels" },
+  { icon: MessageOutlined, label: "Messages" },
+  { icon: SearchOutlined, label: "Search" },
+  { icon: HeartOutlined, label: "Notifications" },
+  { icon: PlusOutlined, label: "Create" },
+  { icon: Avatar, label: "Profile", props: { src: myphoto } },
+  { icon: MenuOutlined, label: "More" },
+].map((item, index) => ({
   key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
+   icon: item.icon === Avatar
+    ? React.createElement(item.icon, { src: myphoto, style: { fontSize: "25px" } })
+    : React.createElement(item.icon, { style: { fontSize: "25px" } }),
+  
+  label: item.label,
 }));
+
+
+
 
 const App: React.FC = () => {
   const {
@@ -46,6 +55,7 @@ const App: React.FC = () => {
   return (
     
     <div className="body">
+    <Router>
     <Layout hasSider>
       <Sider className="sider">
        <div className="demo-logo-vertical" />
@@ -61,7 +71,11 @@ const App: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <Feed />
+             <Routes>
+                <Route path="/profile/pratistha" element={<Profile />} />
+                
+              </Routes>
+           
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
@@ -71,7 +85,9 @@ const App: React.FC = () => {
        <Sider className="sider"></Sider>
         
       </Layout>
+      
     </Layout>
+    </Router>
      </div>
   );
 };

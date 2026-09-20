@@ -17,9 +17,13 @@
   border-radius: 8px; 
 }
 
-.body{
-   background-color: #121212; /* dark background */
-  color: #ffffff;            /* white text */
-  margin: 0;
-  font-family: Arial, sans-serif;
+
+.ant-menu-item:nth-child(1) {
+  margin-bottom: 150px; /* extra space after Messages */
+}
+.ant-menu-item:nth-child(9) {
+  margin-top: 150px; /* extra space after Messages */
+}
+.ant-menu-item .anticon {
+  margin-right: 5px; /* space between icon and text */
 }
