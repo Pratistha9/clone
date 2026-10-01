@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from 'antd';
 import { Row, Col } from "antd";
 import { SettingOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+
 import { Dropdown, Space } from 'antd';
 import Post from "./Post"; // assuming you already made a Post component
 import "./Profile.css";
 import { Button, Flex } from 'antd';
  
 function Profile() {
+    const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:4000/api/profile", {
+      headers: { "Authorization": token }
+    })
+      .then(res => res.json())
+      .then(data => setMessage(data.message));
+  }, []);
+
   const user = 
   { pfp: require("../assests/myphoto.jpg"),
     username: "pra.tisthaa",   
@@ -29,7 +40,7 @@ function Profile() {
     { label: "Logout", key: "4" },
   ];
   return (
-
+      
       <>
         <div className="up">
           <div className="pfpcontent">
@@ -94,6 +105,7 @@ function Profile() {
             </Row>
           </div>
     </>
+    
   );
 }
 
