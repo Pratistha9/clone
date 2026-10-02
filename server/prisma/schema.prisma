@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String
+  bio          String?   @default("")
+  avatarUrl    String?   @default("")
+  createdAt    DateTime  @default(now())
+
+  posts        Post[]
+  comments     Comment[]
+  likes        Like[]
+
+  following    Follow[]  @relation("follower")
+  followers    Follow[]  @relation("following")
+}
+
+model Follow {
+  followerId   String
+  followingId  String
+  createdAt    DateTime @default(now())
+
+  follower     User     @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following    User     @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followingId])
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  userId    String
+  imageUrl  String
+  caption   String?   @default("")
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+  likes     Like[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  text      String
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([postId, userId])
+}
